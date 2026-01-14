@@ -8,9 +8,9 @@ from tkinter import *
 from tkinter import ttk, messagebox, filedialog
 
 from tkinter import font
-from PIL.ImageOps import expand
+
 from PyPDF2 import PdfReader, PdfWriter
-from numpy.ma.core import size
+
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -26,19 +26,8 @@ report_options = [" ", "Січень", "Лютий", "Березень", "Кві
 report_options_year = [" ", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2034", "2035", "2036", "2037",
                        "2038"]
 
-size = 7
+size_list = 7
 results = [0]*7
-
-'''
-month = f[0]
-month_index = results[1]
-year = results[2]
-folder_path = results[3]   # 'D:/комуналка/files_pdf-8'
-folder_path2 = results[4]  #'D:/комуналка/files_pdf-8/pdfEnd'
-folder_path3 = results[5]   # 'D:/комуналка/files_pdf-30-5'
-folder_path4 = results[6]  #'D:/комуналка/files_pdf-30-5/pdfEnd'  
-'''
-
 
 def selected(event):
 
@@ -50,20 +39,26 @@ def selected(event):
         label_report(lf2, 2, 2, value)
         results[0] = value
         results[1]= index
+        report_menu_year.config(state='normal')
+        report_menu.config(state='disable')
     if tag == "year":
         label_report(lf2, 3, 2, value)
         results[2] =  value
+        dialog_btn_8.config(state='normal')
+        report_menu_year.config(state='disable')
 
-def browse_directory(a, b, c, i):
+def browse_directory(a, b, c, i, btn1, btn2):
 
     new_folder_path = filedialog.askdirectory(
         initialdir=r"D:\комуналка", title="Dialog box"
     )
-    print('i...', i, new_folder_path)
+
     results[i] =  new_folder_path
-    print(results)
+
     label_report(a, b, c, new_folder_path)
 
+    btn2.config(state='normal')
+    btn1.config(state='disable')
 
 def label_report(frame, row, column, value):
     report_label = ttk.Label(frame, text=value, font=courier_14, foreground='green')
@@ -200,7 +195,7 @@ label_year = tk.Label(lf2, text="Виберіть рік: ", font=courier_14, fo
 label_year.grid(row=3, column=0, ipadx=6, ipady=6, padx=5, pady=5)
 
 selected_report_year = tk.StringVar(value=report_options[0])
-report_menu_year = ttk.Combobox(lf2, textvariable=selected_report_year, values=report_options_year)
+report_menu_year = ttk.Combobox(lf2, textvariable=selected_report_year, values=report_options_year, state='disable')
 report_menu_year.tag = "year"
 report_menu_year.grid(row=3, column=1, ipadx=6, ipady=6, padx=5, pady=5)
 report_menu_year.bind("<<ComboboxSelected>>", selected)
@@ -214,11 +209,11 @@ lf1.grid_propagate(False)
 label_path = tk.Label(lf1, text="оберіть шлях \n розтушування \n файлів", justify="center", font=courier_14,
                       foreground='red')
 label_path.grid(row=4, column=0, rowspan=2, ipadx=6, ipady=6, padx=5, pady=5)
-dialog_btn_8 = tk.Button(lf1, text="КВІТНЕВА-8", font=courier_10, width=12,
-                         command=partial(browse_directory, lf1, 4, 2, 3))
+dialog_btn_8 = tk.Button(lf1, text="КВІТНЕВА-8", font=courier_10, width=12, state='disable',
+                         command=lambda: browse_directory( lf1, 4, 2, 3, dialog_btn_8, dialog_btn_30))
 dialog_btn_8.grid(row=4, column=1, ipadx=6, ipady=6, padx=5, pady=5)
-dialog_btn_30 = tk.Button(lf1, text="КВІТНЕВА-30-5", font=courier_10, width=12,
-                          command=partial(browse_directory, lf1, 5, 2, 4))
+dialog_btn_30 = tk.Button(lf1, text="КВІТНЕВА-30-5", font=courier_10, width=12, state='disable',
+                          command=lambda: browse_directory(lf1, 5, 2, 4, dialog_btn_30, dialog_add_btn_8))
 dialog_btn_30.grid(row=5, column=1, ipadx=6, ipady=6, padx=5, pady=5)
 
 lf1.grid(column=0, row=5, padx=20, pady=10, sticky=W)
@@ -232,11 +227,11 @@ lf4.grid_propagate(False)
 label_path_add = tk.Label(lf4, text="оберіть шлях \n зберігання \n файлів  ", font=courier_14, justify='center',
                           foreground='red')
 label_path_add.grid(row=4, column=0, rowspan=2, ipadx=6, ipady=6, padx=5, pady=5)
-dialog_add_btn_8 = tk.Button(lf4, text="КВІТНЕВА-8", font=courier_10, width=12,
-                             command=partial(browse_directory, lf4, 4, 2, 5))
+dialog_add_btn_8 = tk.Button(lf4, text="КВІТНЕВА-8", font=courier_10, width=12, state='disable',
+                             command=lambda: browse_directory( lf4, 4, 2, 5, dialog_add_btn_8, dialog_add_btn_30))
 dialog_add_btn_8.grid(row=4, column=1, ipadx=6, ipady=6, padx=5, pady=5)
-dialog_add_btn_30 = tk.Button(lf4, text="КВІТНЕВА-30-5", font=courier_10, width=12,
-                              command=partial(browse_directory, lf4, 5, 2, 6))
+dialog_add_btn_30 = tk.Button(lf4, text="КВІТНЕВА-30-5", font=courier_10, width=12, state='disable',
+                              command=lambda: browse_directory( lf4, 5, 2, 6, dialog_add_btn_30, save_btn))
 dialog_add_btn_30.grid(row=5, column=1, ipadx=6, ipady=6, padx=5, pady=5)
 
 lf4.grid(column=0, row=6, padx=20, pady=10, sticky=W)
@@ -246,7 +241,7 @@ lf = ttk.Frame(lf3, borderwidth=10, relief=SUNKEN)
 lf.config(width=width_frame, height=80)
 lf.grid_propagate(False)
 
-save_btn = tk.Button(lf, text="ЗБЕРЕГТИ ФАЙЛИ", font=courier_10, command=join_file)
+save_btn = tk.Button(lf, text="ЗБЕРЕГТИ ФАЙЛИ", font=courier_10, state='disable', command=join_file)
 save_btn.grid(row=6, column=0, ipadx=6, ipady=6, padx=50, pady=10)
 
 # =========================== Кнопка EXIT  ============================
