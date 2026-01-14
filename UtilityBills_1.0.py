@@ -17,8 +17,8 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.pagesizes import A4
 from io import BytesIO
 
-FONT_PATH = "Fonts/DejaVuSans.ttf"
-pdfmetrics.registerFont(TTFont("DejaVuSans", FONT_PATH))
+
+pdfmetrics.registerFont(TTFont("DejaVuSans", "DejaVuSans.ttf"))
 
 report_options = [" ", "Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень",
                   "Жовтень", "Листопад", "Грудень"]
