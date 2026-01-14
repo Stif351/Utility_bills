@@ -111,9 +111,9 @@ def join_file_kv():
     print(f"Об'єднаний PDF створено: {output_filename2}")
 
     add_header(output_filename2, output_filename2, f'{results[0]}-2026')
+    save_file()
 
 def save_file():
-
 
     messagebox.showinfo("Інформація", "Файли  успішно створенні")
 
