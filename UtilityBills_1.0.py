@@ -1,12 +1,10 @@
 import tkinter as tk
-from functools import partial
 
 import PyPDF2
 import os
 
 from tkinter import *
 from tkinter import ttk, messagebox, filedialog
-
 from tkinter import font
 
 from PyPDF2 import PdfReader, PdfWriter
@@ -29,6 +27,7 @@ report_options_year = [" ", "2025", "2026", "2027", "2028", "2029", "2030", "203
 size_list = 7
 results = [0]*7
 
+
 def selected(event):
 
     widget = event.widget
@@ -47,12 +46,10 @@ def selected(event):
         dialog_btn_8.config(state='normal')
         report_menu_year.config(state='disable')
 
+
 def browse_directory(a, b, c, i, btn1, btn2):
 
-    new_folder_path = filedialog.askdirectory(
-        initialdir=r"D:\комуналка", title="Dialog box"
-    )
-
+    new_folder_path = filedialog.askdirectory(initialdir=r"D:\комуналка", title="Dialog box")
     results[i] =  new_folder_path
 
     label_report(a, b, c, new_folder_path)
@@ -60,7 +57,9 @@ def browse_directory(a, b, c, i, btn1, btn2):
     btn2.config(state='normal')
     btn1.config(state='disable')
 
+
 def label_report(frame, row, column, value):
+
     report_label = ttk.Label(frame, text=value, font=courier_14, foreground='green')
     report_label.grid(row=row, column=column, ipadx=6, ipady=6, padx=55, pady=5)
 
@@ -70,7 +69,6 @@ def join_file():
     folder_path = results[3]
     folder_path2 = results[5]
     months = results[0]
-    print(results[3])
     # Створюємо об'єкт PdfMerger з бібліотеки PyPDF2
     pdf_merger = PyPDF2.PdfMerger()
     for filename in os.listdir(folder_path):
@@ -86,8 +84,6 @@ def join_file():
 
     # Закриваємо об'єкт PdfMerger для звільнення ресурсів
     pdf_merger.close()
-
-    print(f"Об'єднаний PDF створено: {output_filename}")
 
     add_header(output_filename, output_filename, f'{results[0]}-2026')
     join_file_kv()
@@ -107,8 +103,6 @@ def join_file_kv():
         pdf_merger.write(output_file)
     # Закриваємо об'єкт PdfMerger для звільнення ресурсів
     pdf_merger.close()
-
-    print(f"Об'єднаний PDF створено: {output_filename2}")
 
     add_header(output_filename2, output_filename2, f'{results[0]}-2026')
     save_file()
@@ -135,7 +129,7 @@ def add_header(input_pdf, output_pdf, header_text):
 
         # Верхній колонтитул
         can.setFillColorRGB(255, 0, 0)
-        can.setFont("DejaVuSans", 32)
+        can.setFont('DejaVuSans', 32)
         can.drawString(150, height - 45, header_text)
         can.save()
 
@@ -153,6 +147,7 @@ def add_header(input_pdf, output_pdf, header_text):
         if filename.endswith(".pdf"):
             os.remove(os.path.join(folder_path, filename))
             os.remove(os.path.join(folder_path2, filename))'''
+
 
 
 #  ----------- MAIN WINDOWS -------------------------
