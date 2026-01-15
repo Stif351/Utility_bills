@@ -146,6 +146,9 @@ def add_header(input_pdf, output_pdf, header_text):
     with open(output_pdf, "wb") as f:
         writer.write(f)
 
+    path_s = f'Файл збережено.\n Шлях до файлу: {output_pdf}'
+    path_save_label1.config(text=path_s)
+    path_save_label2.config(text=path_s)
 
 def remove_files():
     response = messagebox.askyesno("Вихід", "Ви впевнені, що хочете видалити файли?")
@@ -166,7 +169,7 @@ def remove_files():
 
 root = tk.Tk()
 root.title("MAIN WINDOW")
-root.geometry("900x800")
+root.geometry("900x1000")
 root.resizable(False, False)
 # root.iconbitmap('i-4.ico')
 
@@ -179,7 +182,7 @@ label = tk.Label(root, text="ЄДИНА КВИТАНЦІЯ ПРО ОПЛАТУ �
 label.grid(row=0, column=0, columnspan=3, ipadx=6, ipady=6, padx=5, pady=15)
 
 lf3 = ttk.Frame(root, borderwidth=10, relief=SUNKEN)
-lf3.config(width=850, height=600)
+lf3.config(width=850, height=900)
 lf3.grid_propagate(False)
 
 # =====================  Додаємо  місяць  =========================================
@@ -243,6 +246,20 @@ dialog_add_btn_30.grid(row=5, column=1, ipadx=6, ipady=6, padx=5, pady=5)
 
 lf4.grid(column=0, row=6, padx=20, pady=10, sticky=W)
 
+# =======================  =========================================
+
+lf5 = ttk.Frame(lf3, borderwidth=10, relief=SUNKEN)
+lf5.config(width=width_frame, height=150)
+lf5.grid_propagate(False)
+
+path_save_label1 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
+path_save_label1.grid(row=8, column=0, ipadx=6, ipady=6, padx=5, pady=5)
+
+path_save_label2 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
+path_save_label2.grid(row=9, column=0, ipadx=6, ipady=6, padx=5, pady=5)
+
+lf5.grid(column=0, row=8, padx=20, pady=10, sticky=S)
+
 # =========================== Кнопка зберегти файли  ============================
 lf = ttk.Frame(lf3, borderwidth=10, relief=SUNKEN)
 lf.config(width=width_frame, height=80)
@@ -257,6 +274,20 @@ exit_btn = tk.Button(lf, text="ЗАВЕРШИТИ", font=courier_10, command=con
 exit_btn.grid(row=6, column=2, ipadx=6, ipady=6, padx=400, pady=10)
 
 lf.grid(column=0, row=7, padx=20, pady=10, sticky=S)
+
+# =======================  =========================================
+
+lf5 = ttk.Frame(lf3, borderwidth=10, relief=SUNKEN)
+lf5.config(width=width_frame, height=150)
+lf5.grid_propagate(False)
+
+path_save_label1 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
+path_save_label1.grid(row=8, column=0, ipadx=6, ipady=6, padx=5, pady=5)
+
+path_save_label2 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
+path_save_label2.grid(row=9, column=0, ipadx=6, ipady=6, padx=5, pady=5)
+
+lf5.grid(column=0, row=8, padx=20, pady=10, sticky=S)
 # ================= END ===================================================
 
 lf3.grid(column=0, row=1, ipadx=6, ipady=6, padx=20, pady=20)
