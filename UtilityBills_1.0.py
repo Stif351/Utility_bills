@@ -1,3 +1,4 @@
+
 import tkinter as tk
 
 import PyPDF2
@@ -15,6 +16,8 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.pagesizes import A4
 from io import BytesIO
 
+from send2trash import send2trash
+from pathlib import Path
 
 pdfmetrics.registerFont(TTFont("DejaVuSans", "DejaVuSans.ttf"))
 
@@ -78,7 +81,7 @@ def join_file():
 
     # Зберігаємо результат у новий PDF-файл
     output_filename = f"{folder_path2}/{months}-26.pdf"
-    print('end>>>>', output_filename)
+
     with open(output_filename, 'wb') as output_file:
         pdf_merger.write(output_file)
 
@@ -107,14 +110,16 @@ def join_file_kv():
     add_header(output_filename2, output_filename2, f'{results[0]}-2026')
     save_file()
 
+
 def save_file():
 
-    messagebox.showinfo("Інформація", "Файли  успішно створенні")
+    messagebox.showinfo("Інформація", "Файли оплати успішно створенні.")
 
 
 def confirm_exit():
-    response = messagebox.askyesno("Вихід", "Ви впевнені, що хочете вийти?")
+    response = messagebox.askyesno("Вихід", "Ви впевнені, що хочете вийти і видалити тимчасові файли?")
     if response:
+        remove_files()
         root.quit()
 
 
@@ -142,11 +147,18 @@ def add_header(input_pdf, output_pdf, header_text):
         writer.write(f)
 
 
-'''def remove_files():
-    for filename in (os.listdir(folder_path) and os.listdir(folder_path2)):
-        if filename.endswith(".pdf"):
-            os.remove(os.path.join(folder_path, filename))
-            os.remove(os.path.join(folder_path2, filename))'''
+def remove_files():
+    response = messagebox.askyesno("Вихід", "Ви впевнені, що хочете видалити файли?")
+    folders =[
+        Path(results[3]),
+        Path(results[4])
+    ]
+
+    if response:
+        for folder in folders:
+            for pdf in folder.glob("*.pdf"):
+                send2trash(pdf)
+
 
 
 
