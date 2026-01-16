@@ -20,7 +20,7 @@ from send2trash import send2trash
 from pathlib import Path
 
 pdfmetrics.registerFont(TTFont("DejaVuSans", "DejaVuSans.ttf"))
-
+ft = 'DejaVuSans'
 report_options = [" ", "Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень",
                   "Жовтень", "Листопад", "Грудень"]
 
@@ -68,19 +68,16 @@ def label_report(frame, row, column, value):
 
 
 def join_file():
-    # Шлях до PDF-файлів
-    folder_path = results[3]
-    folder_path2 = results[5]
-    months = results[0]
+
     # Створюємо об'єкт PdfMerger з бібліотеки PyPDF2
     pdf_merger = PyPDF2.PdfMerger()
-    for filename in os.listdir(folder_path):
+    for filename in os.listdir(results[3]):
         if filename.endswith(".pdf"):
-            full_path = os.path.join(folder_path, filename)
+            full_path = os.path.join(results[3], filename)
             pdf_merger.append(full_path)
 
     # Зберігаємо результат у новий PDF-файл
-    output_filename = f"{folder_path2}/{months}-26.pdf"
+    output_filename = f"{results[5]}/{results[0]}-26.pdf"
 
     with open(output_filename, 'wb') as output_file:
         pdf_merger.write(output_file)
@@ -88,7 +85,7 @@ def join_file():
     # Закриваємо об'єкт PdfMerger для звільнення ресурсів
     pdf_merger.close()
 
-    add_header(output_filename, output_filename, f'{results[0]}-2026')
+    add_header(output_filename, output_filename, f'{results[0]}-2026', lf5, 8)
     join_file_kv()
 
 def join_file_kv():
@@ -107,7 +104,7 @@ def join_file_kv():
     # Закриваємо об'єкт PdfMerger для звільнення ресурсів
     pdf_merger.close()
 
-    add_header(output_filename2, output_filename2, f'{results[0]}-2026')
+    add_header(output_filename2, output_filename2, f'{results[0]}-2026', lf5, 9)
     save_file()
 
 
@@ -117,13 +114,13 @@ def save_file():
 
 
 def confirm_exit():
-    response = messagebox.askyesno("Вихід", "Ви впевнені, що хочете вийти і видалити тимчасові файли?")
+    response = messagebox.askyesno("Вихід із додатка", "Ви впевнені, що хочете вийти і видалити тимчасові файли?")
     if response:
         remove_files()
         root.quit()
 
 
-def add_header(input_pdf, output_pdf, header_text):
+def add_header(input_pdf, output_pdf, header_text, fr, rw):
     reader = PdfReader(input_pdf)
     writer = PdfWriter()
 
@@ -134,7 +131,7 @@ def add_header(input_pdf, output_pdf, header_text):
 
         # Верхній колонтитул
         can.setFillColorRGB(255, 0, 0)
-        can.setFont('DejaVuSans', 32)
+        can.setFont(ft, 32)
         can.drawString(150, height - 45, header_text)
         can.save()
 
@@ -147,11 +144,14 @@ def add_header(input_pdf, output_pdf, header_text):
         writer.write(f)
 
     path_s = f'Файл збережено.\n Шлях до файлу: {output_pdf}'
-    path_save_label1.config(text=path_s)
-    path_save_label2.config(text=path_s)
+    path_save_label1 = ttk.Label(fr, text=path_s, font=courier_10, foreground='green')
+    path_save_label1.grid(row=rw, column=0, ipadx=6, ipady=6, padx=5, pady=5)
+    # print(path_s)
+    # path_save_label1.config(text=path_s)
+    # path_save_label2.config(text=path_s)
 
 def remove_files():
-    response = messagebox.askyesno("Вихід", "Ви впевнені, що хочете видалити файли?")
+    response = messagebox.askyesno("Видалення файлу", "Ви впевнені, що хочете видалити файли?")
     folders =[
         Path(results[3]),
         Path(results[4])
@@ -171,7 +171,7 @@ root = tk.Tk()
 root.title("MAIN WINDOW")
 root.geometry("900x1000")
 root.resizable(False, False)
-# root.iconbitmap('i-4.ico')
+root.iconbitmap('images/smart.ico')
 
 courier_10 = font.Font(family="Courier", size=10, weight=font.BOLD)
 courier_14 = font.Font(family="Courier", size=14, weight=font.BOLD)
@@ -246,33 +246,13 @@ dialog_add_btn_30.grid(row=5, column=1, ipadx=6, ipady=6, padx=5, pady=5)
 
 lf4.grid(column=0, row=6, padx=20, pady=10, sticky=W)
 
-# =======================  =========================================
+# =======================INFO TABLE =========================================
 
 lf5 = ttk.Frame(lf3, borderwidth=10, relief=SUNKEN)
 lf5.config(width=width_frame, height=150)
 lf5.grid_propagate(False)
 
-path_save_label1 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
-path_save_label1.grid(row=8, column=0, ipadx=6, ipady=6, padx=5, pady=5)
-
-path_save_label2 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
-path_save_label2.grid(row=9, column=0, ipadx=6, ipady=6, padx=5, pady=5)
-
-lf5.grid(column=0, row=8, padx=20, pady=10, sticky=S)
-
-# =======================  =========================================
-
-lf5 = ttk.Frame(lf3, borderwidth=10, relief=SUNKEN)
-lf5.config(width=width_frame, height=150)
-lf5.grid_propagate(False)
-
-path_save_label1 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
-path_save_label1.grid(row=8, column=0, ipadx=6, ipady=6, padx=5, pady=5)
-
-path_save_label2 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
-path_save_label2.grid(row=9, column=0, ipadx=6, ipady=6, padx=5, pady=5)
-
-lf5.grid(column=0, row=8, padx=20, pady=10, sticky=S)
+lf5.grid(column=0, row=7, padx=20, pady=10, sticky=S)
 
 # =========================== Кнопка зберегти файли  ============================
 lf = ttk.Frame(lf3, borderwidth=10, relief=SUNKEN)
@@ -287,7 +267,7 @@ save_btn.grid(row=6, column=0, ipadx=6, ipady=6, padx=50, pady=10)
 exit_btn = tk.Button(lf, text="ЗАВЕРШИТИ", font=courier_10, command=confirm_exit)
 exit_btn.grid(row=6, column=2, ipadx=6, ipady=6, padx=400, pady=10)
 
-lf.grid(column=0, row=7, padx=20, pady=10, sticky=S)
+lf.grid(column=0, row=8, padx=20, pady=10, sticky=S)
 
 
 # ================= END ===================================================
