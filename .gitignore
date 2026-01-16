@@ -1,0 +1,12 @@
+
+
+build/
+dist/
+
+*.xd
+*.txt
+*.spec
+
+# Avoid your project being littered with annoying .DS_Store files!
+.DS_Store
+.prettierignore

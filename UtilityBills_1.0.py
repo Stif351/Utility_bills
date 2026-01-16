@@ -260,6 +260,20 @@ path_save_label2.grid(row=9, column=0, ipadx=6, ipady=6, padx=5, pady=5)
 
 lf5.grid(column=0, row=8, padx=20, pady=10, sticky=S)
 
+# =======================  =========================================
+
+lf5 = ttk.Frame(lf3, borderwidth=10, relief=SUNKEN)
+lf5.config(width=width_frame, height=150)
+lf5.grid_propagate(False)
+
+path_save_label1 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
+path_save_label1.grid(row=8, column=0, ipadx=6, ipady=6, padx=5, pady=5)
+
+path_save_label2 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
+path_save_label2.grid(row=9, column=0, ipadx=6, ipady=6, padx=5, pady=5)
+
+lf5.grid(column=0, row=8, padx=20, pady=10, sticky=S)
+
 # =========================== Кнопка зберегти файли  ============================
 lf = ttk.Frame(lf3, borderwidth=10, relief=SUNKEN)
 lf.config(width=width_frame, height=80)
@@ -275,19 +289,7 @@ exit_btn.grid(row=6, column=2, ipadx=6, ipady=6, padx=400, pady=10)
 
 lf.grid(column=0, row=7, padx=20, pady=10, sticky=S)
 
-# =======================  =========================================
 
-lf5 = ttk.Frame(lf3, borderwidth=10, relief=SUNKEN)
-lf5.config(width=width_frame, height=150)
-lf5.grid_propagate(False)
-
-path_save_label1 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
-path_save_label1.grid(row=8, column=0, ipadx=6, ipady=6, padx=5, pady=5)
-
-path_save_label2 = ttk.Label(lf5, text=' ', font=courier_10, foreground='green')
-path_save_label2.grid(row=9, column=0, ipadx=6, ipady=6, padx=5, pady=5)
-
-lf5.grid(column=0, row=8, padx=20, pady=10, sticky=S)
 # ================= END ===================================================
 
 lf3.grid(column=0, row=1, ipadx=6, ipady=6, padx=20, pady=20)
